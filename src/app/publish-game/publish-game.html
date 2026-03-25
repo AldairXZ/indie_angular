@@ -1,0 +1,53 @@
+<div class="publish-container">
+  <div class="publish-card">
+    <h2>Publicar Nuevo Juego</h2>
+
+    @if (mensajeExito) {
+      <div class="success-alert">{{ mensajeExito }}</div>
+    }
+    @if (mensajeError) {
+      <div class="error-alert">{{ mensajeError }}</div>
+    }
+
+    <form [formGroup]="publishForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="title">Título del Juego</label>
+        <input type="text" id="title" formControlName="title">
+      </div>
+
+      <div class="form-group">
+        <label for="description">Descripción</label>
+        <textarea id="description" rows="4" formControlName="description"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half">
+          <label for="categoryId">Género</label>
+          <select id="categoryId" formControlName="categoryId">
+            <option value="">Selecciona un género</option>
+            @for (cat of categorias; track cat.id) {
+              <option [value]="cat.id">{{ cat.name }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="form-group half">
+          <label for="price">Precio (USD)</label>
+          <input type="number" id="price" formControlName="price" min="0" step="0.01">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="imageUrl">URL de la Imagen de Portada</label>
+        <input type="url" id="imageUrl" formControlName="imageUrl">
+      </div>
+
+      <div class="form-group">
+        <label for="downloadUrl">URL de Descarga del Archivo</label>
+        <input type="url" id="downloadUrl" formControlName="downloadUrl">
+      </div>
+
+      <button type="submit" [disabled]="publishForm.invalid" class="btn-submit">Publicar Juego</button>
+    </form>
+  </div>
+</div>

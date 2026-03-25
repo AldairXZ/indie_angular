@@ -1,0 +1,278 @@
+.auth-page-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: radial-gradient(circle at center, rgba(10, 10, 12, 0.4) 0%, rgba(10, 10, 12, 0.9) 100%), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1920');
+  background-size: cover;
+  background-position: center;
+  z-index: 9999;
+  overflow-y: auto;
+}
+
+.glass-card {
+  display: flex;
+  width: 100%;
+  max-width: 900px;
+  background: rgba(15, 15, 20, 0.65);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  animation: fadeUp 0.6s ease-out;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.brand-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+  background: linear-gradient(135deg, rgba(88, 166, 255, 0.2) 0%, rgba(10, 10, 12, 0.1) 100%);
+  text-align: center;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.logo-icon-large {
+  font-size: 5rem;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 0 20px rgba(88, 166, 255, 0.5));
+}
+
+.brand-section h2 {
+  font-size: 2.5rem;
+  color: #fff;
+  margin-bottom: 1rem;
+  letter-spacing: 2px;
+}
+
+.brand-section p {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.form-section {
+  flex: 1;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-section h3 {
+  color: #fff;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.input-container {
+  margin-bottom: 1.2rem;
+  position: relative;
+}
+
+.input-container label {
+  display: block;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}
+
+.input-container input, .modern-select {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.input-container input:focus, .modern-select:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 15px rgba(88, 166, 255, 0.2);
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.input-container.has-error input {
+  border-color: #ff6b6b;
+  background: rgba(248, 81, 73, 0.05);
+}
+
+.error-msg {
+  color: #ff6b6b;
+  font-size: 0.8rem;
+  position: absolute;
+  bottom: -18px;
+  left: 5px;
+}
+
+.modern-select option {
+  background-color: var(--bg-surface);
+  color: #fff;
+}
+
+.btn-glow {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(45deg, var(--accent-primary), #4785ff);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1.5rem;
+  box-shadow: 0 10px 20px rgba(88, 166, 255, 0.3);
+}
+
+.btn-glow:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 25px rgba(88, 166, 255, 0.4);
+}
+
+.btn-glow:disabled {
+  background: rgba(255,255,255,0.1);
+  color: var(--text-muted);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1.5rem 0;
+  color: var(--text-muted);
+}
+
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.divider span {
+  padding: 0 15px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-outline-modern {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  width: 100%;
+  padding: 14px;
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.btn-outline-modern:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.error-alert {
+  background: rgba(248, 81, 73, 0.15);
+  color: #ff6b6b;
+  padding: 12px;
+  border-left: 4px solid #ff6b6b;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.biometric-setup {
+  text-align: center;
+}
+
+.setup-desc {
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.fingerprint-icon {
+  font-size: 5rem;
+  color: var(--accent-primary);
+  margin-bottom: 1.5rem;
+  filter: drop-shadow(0 0 15px rgba(88, 166, 255, 0.3));
+}
+
+.status-msg {
+  color: #fff;
+  background-color: rgba(0,0,0,0.3);
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.setup-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.btn-biometric-modern {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--accent-primary);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-skip {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  color: var(--text-muted);
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .glass-card {
+    flex-direction: column;
+  }
+  .brand-section {
+    padding: 2rem;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  .form-section {
+    padding: 2rem;
+  }
+}

@@ -1,0 +1,42 @@
+.terms-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  font-family: 'Inter', sans-serif;
+  color: var(--text-main);
+  background-color: var(--bg-surface);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  line-height: 1.6;
+}
+
+.terms-container h1 {
+  color: var(--accent-primary);
+  margin-bottom: 0.5rem;
+  font-size: 2.2rem;
+}
+
+.date {
+  font-style: italic;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+}
+
+.terms-container h2 {
+  color: #f0f6fc;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+}
+
+.terms-container ul {
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.terms-container li {
+  margin-bottom: 0.5rem;
+}

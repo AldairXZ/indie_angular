@@ -1,0 +1,60 @@
+<div class="explore-container">
+  <header class="explore-header">
+    <div class="header-content">
+      <h2>Explorar Catálogo</h2>
+      <p>Descubre los mejores juegos independientes de la UTEQ.</p>
+    </div>
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Buscar juegos por título..." [(ngModel)]="searchTerm">
+    </div>
+  </header>
+
+  <div class="filters-section">
+    <div class="category-pills">
+      @for (cat of categorias; track cat) {
+        <button
+          class="pill"
+          [class.active]="selectedCategory === cat"
+          (click)="setCategory(cat)">
+          {{ cat }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="games-grid">
+    @for (juego of filteredGames; track juego.id) {
+      <div class="game-card">
+        <div class="image-wrapper">
+          <img [src]="juego.imagen || juego.image_url" [alt]="juego.title">
+          <div class="price-tag">
+            @if (juego.price == 0) {
+              <span>Gratis</span>
+            } @else {
+              <span>${{ juego.price }}</span>
+            }
+          </div>
+          <div class="hover-overlay">
+            <button class="btn-card-action">Ver Detalles</button>
+          </div>
+        </div>
+        <div class="game-info">
+          <h3>{{ juego.title }}</h3>
+          <p class="creator">{{ juego.developer }}</p>
+          <div class="tags">
+            <span class="genre-tag">{{ juego.category }}</span>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (filteredGames.length === 0) {
+      <div class="no-results">
+        <span class="icon">🔍</span>
+        <h3>No se encontraron resultados</h3>
+        <p>Intenta con otros filtros o términos de búsqueda.</p>
+      </div>
+    }
+  </div>
+</div>

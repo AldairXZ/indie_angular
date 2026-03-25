@@ -1,0 +1,355 @@
+.home-container {
+  padding: 0 0 2rem 0;
+  color: var(--text-main);
+  background-color: var(--bg-base);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+.hero-banner {
+  width: 100%;
+  height: 450px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  padding: 0 4rem;
+  margin-bottom: 3rem;
+  box-shadow: inset 0 -40px 50px -10px var(--bg-base);
+}
+
+.hero-content {
+  max-width: 600px;
+}
+
+.badge {
+  background: linear-gradient(90deg, var(--accent-danger), #f9cb28);
+  color: #fff;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border-radius: 4px;
+  letter-spacing: 1px;
+}
+
+.hero-content h1 {
+  font-size: 3.5rem;
+  color: #ffffff;
+  margin: 1rem 0;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: var(--text-main);
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+}
+
+.play-btn {
+  background-color: var(--accent-success);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.play-btn:hover {
+  background-color: #3fb950;
+  transform: scale(1.05);
+}
+
+.category-section {
+  padding: 0 3rem;
+  margin-bottom: 3rem;
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.category-header h2 {
+  font-size: 1.6rem;
+  color: #ffffff;
+  margin: 0;
+}
+
+.see-all-btn {
+  background: none;
+  border: none;
+  color: var(--accent-primary);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.see-all-btn:hover {
+  text-decoration: underline;
+}
+
+.game-carousel {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 10px 0 20px 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
+}
+
+.game-carousel::-webkit-scrollbar {
+  height: 8px;
+}
+
+.game-carousel::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 4px;
+}
+
+.game-card {
+  background-color: var(--bg-surface);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s ease;
+  position: relative;
+}
+
+.game-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(88, 166, 255, 0.15);
+  border-color: rgba(88, 166, 255, 0.4);
+}
+
+.image-container, .image-wrapper {
+  overflow: hidden;
+  position: relative;
+}
+
+.game-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.game-card:hover img {
+  transform: scale(1.08);
+}
+
+.btn-wishlist {
+  background: transparent;
+  color: var(--accent-primary);
+  border: 1px solid var(--accent-primary);
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+  transition: all 0.2s;
+}
+
+.btn-wishlist:hover {
+  background: rgba(88, 166, 255, 0.1);
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.game-card:hover .image-container img {
+  transform: scale(1.1);
+}
+
+.overlay-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0,0,0,0.6);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.game-card:hover .overlay-play {
+  opacity: 1;
+}
+
+.game-title {
+  font-size: 1.1rem;
+  margin: 10px 10px 4px 10px;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.game-creator {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0 10px 8px 10px;
+}
+
+.game-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.genre-tag {
+  background-color: var(--bg-base);
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  border: 1px solid var(--border-color);
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: var(--bg-surface);
+  width: 90%;
+  max-width: 600px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  animation: modalFadeIn 0.3s ease-out forwards;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.close-btn:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.modal-header {
+  width: 100%;
+  height: 250px;
+}
+
+.modal-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-body {
+  padding: 25px;
+}
+
+.modal-body h2 {
+  margin: 0 0 5px 0;
+  font-size: 2rem;
+  color: #fff;
+}
+
+.modal-creator {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.modal-tags {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 25px;
+  color: var(--text-muted);
+}
+
+.modal-description h3 {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.modal-description p {
+  line-height: 1.6;
+  color: var(--text-main);
+}
+
+.modal-actions {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.play-btn-large {
+  width: 100%;
+  background-color: var(--accent-success);
+  color: white;
+  border: none;
+  padding: 15px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.play-btn-large:hover {
+  background-color: #3fb950;
+}

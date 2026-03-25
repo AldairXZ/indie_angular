@@ -1,0 +1,77 @@
+<div class="auth-page-wrapper">
+  <div class="glass-card">
+    <div class="brand-section">
+      <span class="logo-icon-large">🎮</span>
+      <h2>IndieHub</h2>
+      <p>Únete a la comunidad exclusiva de la UTEQ. Descubre, juega y publica.</p>
+    </div>
+
+    <div class="form-section">
+      @if (!biometricStep) {
+        <h3>Crear Cuenta</h3>
+
+        @if (errorMessage) {
+          <div class="error-alert">{{ errorMessage }}</div>
+        }
+
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <div class="input-container" [class.has-error]="isInvalid('username')">
+            <label>Nombre de Usuario</label>
+            <input type="text" formControlName="username" required>
+            @if (isInvalid('username')) {
+              <span class="error-msg">{{ getErrorMessage('username') }}</span>
+            }
+          </div>
+
+          <div class="input-container" [class.has-error]="isInvalid('email')">
+            <label>Correo Electrónico Institucional</label>
+            <input type="email" formControlName="email" placeholder="al123456@uteq.edu.mx" required>
+            @if (isInvalid('email')) {
+              <span class="error-msg">{{ getErrorMessage('email') }}</span>
+            }
+          </div>
+
+          <div class="input-container" [class.has-error]="isInvalid('password')">
+            <label>Contraseña</label>
+            <input type="password" formControlName="password" required placeholder="Mínimo 6 caracteres">
+            @if (isInvalid('password')) {
+              <span class="error-msg">{{ getErrorMessage('password') }}</span>
+            }
+          </div>
+
+          <div class="input-container">
+            <label>Tipo de Perfil</label>
+            <select formControlName="role" class="modern-select">
+              <option value="player">Usuario Normal (Explorar y Descargar)</option>
+              <option value="developer">Desarrollador (Publicar Juegos)</option>
+            </select>
+          </div>
+
+          <button type="submit" [disabled]="registerForm.invalid" class="btn-glow">Siguiente Paso</button>
+        </form>
+
+        <div class="divider">
+          <span>¿Ya tienes cuenta?</span>
+        </div>
+
+        <a routerLink="/login" class="btn-outline-modern">Iniciar Sesión</a>
+      } @else {
+        <div class="biometric-setup">
+          <h3>Paso 2: Seguridad Biométrica</h3>
+          <p class="setup-desc">Registra tu huella dactilar de esta PC para iniciar sesión más rápido la próxima vez. Es opcional.</p>
+
+          <div class="fingerprint-icon">👆</div>
+
+          @if (biometricStatus) {
+            <p class="status-msg">{{ biometricStatus }}</p>
+          }
+
+          <div class="setup-actions">
+            <button class="btn-biometric-modern" (click)="registrarHuella()">Registrar Huella de PC</button>
+            <button class="btn-skip" (click)="finalizarRegistro()">Saltar por ahora</button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

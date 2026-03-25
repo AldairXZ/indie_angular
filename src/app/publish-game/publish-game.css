@@ -1,0 +1,83 @@
+.publish-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 1rem;
+  background-color: var(--bg-base);
+  color: var(--text-main);
+}
+
+.publish-card {
+  background-color: var(--bg-surface);
+  padding: 2.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+h2 {
+  text-align: center;
+  color: #fff;
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.half {
+  flex: 1;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--bg-base);
+  border: 1px solid var(--border-color);
+  color: #fff;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--accent-success);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1.1rem;
+  margin-top: 1rem;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background-color: #3fb950;
+}
+
+.btn-submit:disabled {
+  background-color: #21262d;
+  color: var(--text-muted);
+  cursor: not-allowed;
+}

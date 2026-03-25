@@ -1,0 +1,158 @@
+.profile-container {
+  padding: 3rem;
+  color: var(--text-main);
+}
+
+.profile-layout {
+  display: flex;
+  gap: 3rem;
+  align-items: flex-start;
+}
+
+.settings-sidebar {
+  flex: 1;
+  background-color: var(--bg-surface);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.history-content {
+  flex: 2;
+}
+
+.settings-sidebar h2, .history-content h2 {
+  color: #fff;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-muted);
+}
+
+.modern-input {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--bg-base);
+  border: 1px solid var(--border-color);
+  color: #fff;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.modern-input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
+.btn-save {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--accent-primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.danger-zone {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--accent-danger);
+}
+
+.danger-zone h3 {
+  color: var(--accent-danger);
+  margin-bottom: 0.5rem;
+}
+
+.danger-zone p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.btn-delete-account {
+  width: 100%;
+  padding: 12px;
+  background-color: transparent;
+  color: var(--accent-danger);
+  border: 1px solid var(--accent-danger);
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-delete-account:hover {
+  background-color: rgba(248, 81, 73, 0.1);
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.game-card {
+  background-color: var(--bg-surface);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.game-card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+}
+
+.game-info {
+  padding: 1.2rem;
+}
+
+.game-info h4 {
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.date-acquired {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.btn-play {
+  display: block;
+  text-align: center;
+  width: 100%;
+  background-color: var(--accent-success);
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  box-sizing: border-box;
+}
+
+.success-alert {
+  background-color: rgba(46, 160, 67, 0.1);
+  color: var(--accent-success);
+  padding: 10px;
+  border: 1px solid var(--accent-success);
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.empty-state {
+  color: var(--text-muted);
+  grid-column: 1 / -1;
+}
