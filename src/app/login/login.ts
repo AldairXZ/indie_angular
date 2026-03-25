@@ -38,14 +38,25 @@ export class LoginComponent {
     }
   }
 
-  async loginWithBiometrics() {
+async loginWithBiometrics() {
     this.errorMessage = '';
 
-    this.http.post('https://indie-backend-wz13.onrender.com', {}).subscribe({
+    // CORRECCIÓN: Se agregó la ruta /api/webauthn/login/options
+    this.http.post('https://indie-backend-wz13.onrender.com/api/webauthn/login/options', {}).subscribe({
       next: async (options: any) => {
         try {
+          // Procesar el challenge que viene del servidor
           options.challenge = this.base64ToUint8Array(options.challenge);
 
+          // Importante: Si el servidor envía allowCredentials, hay que procesar los IDs
+          if (options.allowCredentials) {
+            options.allowCredentials = options.allowCredentials.map((cred: any) => ({
+              ...cred,
+              id: this.base64ToUint8Array(cred.id)
+            }));
+          }
+
+          // Esto abre la ventanita del navegador para la huella/rostro
           const credential: any = await navigator.credentials.get({ publicKey: options });
 
           const credentialForServer = {
@@ -71,10 +82,12 @@ export class LoginComponent {
           });
 
         } catch (error) {
+          console.error('Error en biometría:', error);
           this.errorMessage = 'Autenticación biométrica cancelada o fallida.';
         }
       },
-      error: () => {
+      error: (err) => {
+        console.error('Error de red:', err);
         this.errorMessage = 'Error al contactar con el servidor de seguridad.';
       }
     });
