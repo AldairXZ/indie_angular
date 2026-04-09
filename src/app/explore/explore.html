@@ -1,25 +1,67 @@
 <div class="page-container">
+
+  <div class="hero-carousel">
+    @for (feat of featuredGames; track feat.id; let i = $index) {
+      <div class="carousel-slide" [class.active]="i === currentSlide">
+        <img [src]="feat.image_url" alt="Banner del juego">
+        <div class="carousel-overlay">
+          <div class="carousel-content">
+            <span class="feat-tag"><i class='bx bxs-flame'></i> {{feat.tag}}</span>
+            <h2>{{feat.title}}</h2>
+            <p>{{feat.description}}</p>
+            <div class="carousel-actions">
+              <button class="btn-cta-main" style="width: auto;">
+                <i class='bx bx-play'></i> Descubrir
+              </button>
+              <span class="carousel-price">{{ feat.price > 0 ? (feat.price | currency) : 'Gratis' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    <button class="carousel-btn prev" (click)="prevSlide(); stopCarousel(); startCarousel()"><i class='bx bx-chevron-left'></i></button>
+    <button class="carousel-btn next" (click)="nextSlide(); stopCarousel(); startCarousel()"><i class='bx bx-chevron-right'></i></button>
+
+    <div class="carousel-indicators">
+      @for (feat of featuredGames; track feat.id; let i = $index) {
+        <span class="dot" [class.active]="i === currentSlide" (click)="setSlide(i)"></span>
+      }
+    </div>
+  </div>
+
   <div class="page-header">
     <div class="header-title">
       <h2><i class='bx bx-compass'></i> Explorar Catálogo</h2>
       <p>Descubre y apoya el talento independiente.</p>
     </div>
-    <div class="search-box">
-      <i class='bx bx-search'></i>
-      <input type="text" class="input-modern" placeholder="Buscar por título o género...">
+
+    <div class="filter-controls">
+      <div class="search-box">
+        <i class='bx bx-search'></i>
+        <input type="text" class="input-modern" placeholder="Buscar por título o género..." [(ngModel)]="searchTerm" (input)="filterGames()">
+      </div>
     </div>
   </div>
 
+  <div class="categories-row">
+    @for (cat of categories; track cat) {
+      <button class="filter-pill" [class.active]="selectedCategory === cat" (click)="setCategory(cat)">
+        {{cat}}
+      </button>
+    }
+  </div>
+
   <div class="games-grid">
-    @for (game of allGames; track game.id) {
-      <div class="game-card">
+    @for (game of filteredGames; track game.id) {
+      <div class="game-card" [routerLink]="['/juego', game.id]" style="cursor: pointer;">
         <div class="card-img-wrapper">
           <img [src]="game.imagen || game.image_url" [alt]="game.title" class="game-img">
           <div class="card-overlay">
-            <button class="action-icon" (click)="addToWishlist(game.id)" title="Añadir a deseos">
+            <button class="action-icon" (click)="addToWishlist(game.id); $event.stopPropagation()" title="Añadir a deseos">
               <i class='bx bx-heart'></i>
             </button>
-            <button class="action-icon" title="Compartir">
+            <button class="action-icon" (click)="$event.stopPropagation()" title="Compartir">
               <i class='bx bx-share-alt'></i>
             </button>
           </div>
@@ -37,11 +79,16 @@
           <p class="developer"><i class='bx bx-code-block'></i> {{game.developer}}</p>
 
           <div class="card-actions-row">
-            <button class="btn-cta-main" (click)="addToLibrary(game.id)">
+            <button class="btn-cta-main" (click)="addToLibrary(game.id); $event.stopPropagation()">
               <i class='bx bx-cart-add'></i> Adquirir ahora
             </button>
           </div>
         </div>
+      </div>
+    } @empty {
+      <div class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-muted);">
+        <i class='bx bx-ghost' style="font-size: 3rem; margin-bottom: 10px;"></i>
+        <p>No se encontraron juegos con esos filtros.</p>
       </div>
     }
   </div>
