@@ -5,11 +5,14 @@
         <span class="logo-icon"><i class='bx bx-joystick'></i></span>
         <h2 class="sidebar-title">IndieHub</h2>
       </div>
-      <nav class="sidebar-nav">
-        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-          <span class="nav-icon"><i class='bx bx-home-alt'></i></span>
-          <span class="nav-text">Catálogo</span>
-        </a>
+        <nav class="sidebar-nav">
+        @if (isAuthenticated) {
+          <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <span class="nav-icon"><i class='bx bx-library'></i></span>
+            <span class="nav-text">Mi Biblioteca</span>
+          </a>
+        }
+
         <a routerLink="/explorar" routerLinkActive="active">
           <span class="nav-icon"><i class='bx bx-compass'></i></span>
           <span class="nav-text">Explorar</span>
@@ -19,6 +22,7 @@
           <span class="nav-icon"><i class='bx bx-message-square-dots'></i></span>
           <span class="nav-text">Comunidad</span>
         </a>
+
         <a routerLink="/reportes" routerLinkActive="active">
           <span class="nav-icon"><i class='bx bx-support'></i></span>
           <span class="nav-text">Soporte</span>

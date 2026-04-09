@@ -2,11 +2,11 @@
   <div class="page-header">
     <div class="header-title">
       <h2><i class='bx bx-compass'></i> Explorar Catálogo</h2>
-      <p>Descubre los mejores títulos independientes.</p>
+      <p>Descubre y apoya el talento independiente.</p>
     </div>
     <div class="search-box">
       <i class='bx bx-search'></i>
-      <input type="text" class="input-modern" placeholder="Buscar juegos...">
+      <input type="text" class="input-modern" placeholder="Buscar por título o género...">
     </div>
   </div>
 
@@ -15,27 +15,33 @@
       <div class="game-card">
         <div class="card-img-wrapper">
           <img [src]="game.imagen || game.image_url" [alt]="game.title" class="game-img">
-          <span class="price-badge">{{ game.price > 0 ? '$' + game.price : 'GRATIS' }}</span>
+          <div class="card-overlay">
+            <button class="action-icon" (click)="addToWishlist(game.id)" title="Añadir a deseos">
+              <i class='bx bx-heart'></i>
+            </button>
+            <button class="action-icon" title="Compartir">
+              <i class='bx bx-share-alt'></i>
+            </button>
+          </div>
+          <span class="price-badge">{{ game.price > 0 ? (game.price | currency) : 'GRATIS' }}</span>
         </div>
         <div class="game-info">
-          <span class="category-tag">{{game.category}}</span>
+          <div class="info-top">
+            <span class="category-tag">{{game.category}}</span>
+            <div class="rating">
+              <i class='bx bxs-star'></i>
+              <span>4.8</span>
+            </div>
+          </div>
           <h3>{{game.title}}</h3>
           <p class="developer"><i class='bx bx-code-block'></i> {{game.developer}}</p>
 
-          <div class="card-actions">
-            <button class="btn-primary" (click)="addToLibrary(game.id)">
-              <i class='bx bx-plus'></i> Obtener
-            </button>
-            <button class="btn-secondary" (click)="addToWishlist(game.id)">
-              <i class='bx bx-heart'></i>
+          <div class="card-actions-row">
+            <button class="btn-cta-main" (click)="addToLibrary(game.id)">
+              <i class='bx bx-cart-add'></i> Adquirir ahora
             </button>
           </div>
         </div>
-      </div>
-    } @empty {
-      <div class="empty-state">
-        <i class='bx bx-loader-alt bx-spin'></i>
-        <p>Cargando catálogo...</p>
       </div>
     }
   </div>

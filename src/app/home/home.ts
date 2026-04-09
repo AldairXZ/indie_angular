@@ -1,7 +1,8 @@
-import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core'; // <-- 1. Importar
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router'; // <-- 1. Importamos Router
+import { AuthService } from '../auth';
 
 @Component({
   selector: 'app-home',
@@ -12,25 +13,57 @@ import { RouterModule } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   myGames: any[] = [];
+  wishlistGames: any[] = [];
+
   private http = inject(HttpClient);
-  private cdr = inject(ChangeDetectorRef); // <-- 2. Inyectar
+  private cdr = inject(ChangeDetectorRef);
+  private authService = inject(AuthService);
+  private router = inject(Router); // <-- 2. Inyectamos el Router
   private apiUrl = 'https://indie-backend-wz13.onrender.com/api';
 
-  ngOnInit() {
-    this.loadLibrary();
+  get isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
   }
 
-  loadLibrary() {
+  ngOnInit() {
+    if (this.isAuthenticated) {
+      this.loadAllUserData();
+    } else {
+      // 3. Si entra a la ruta principal y no tiene sesión, salta automático a explorar
+      this.router.navigate(['/explorar']);
+    }
+  }
+
+  loadAllUserData() {
     const token = localStorage.getItem('jwt_token');
     if (!token) return;
 
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const headers = new HttpHeaders().set('authorization', `Bearer ${token}`);
+
     this.http.get(`${this.apiUrl}/library`, { headers }).subscribe({
       next: (data: any) => {
         this.myGames = data;
-        this.cdr.detectChanges(); // <-- 3. Forzar el redibujado de la pantalla
-      },
-      error: (err) => console.error(err)
+        this.cdr.detectChanges();
+      }
+    });
+
+    this.http.get(`${this.apiUrl}/wishlist`, { headers }).subscribe({
+      next: (data: any) => {
+        this.wishlistGames = data;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  removeFromWishlist(gameId: number) {
+    const token = localStorage.getItem('jwt_token');
+    const headers = new HttpHeaders().set('authorization', `Bearer ${token}`);
+
+    this.http.delete(`${this.apiUrl}/wishlist/${gameId}`, { headers }).subscribe({
+      next: () => {
+        this.wishlistGames = this.wishlistGames.filter(g => g.id !== gameId);
+        this.cdr.detectChanges();
+      }
     });
   }
 }

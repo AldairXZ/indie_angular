@@ -1,36 +1,82 @@
 <div class="page-container">
-  <div class="page-header">
-    <div class="header-title">
-      <h2><i class='bx bx-library'></i> Mi Biblioteca</h2>
-      <p>Juegos listos para descargar y jugar.</p>
-    </div>
-  </div>
+  @if (isAuthenticated) {
 
-  <div class="games-grid">
-    @for (game of myGames; track game.id) {
-      <div class="game-card">
-        <div class="card-img-wrapper">
-          <img [src]="game.imagen || game.image_url" [alt]="game.title" class="game-img">
+    <div class="section-container">
+      <div class="page-header">
+        <div class="header-title">
+          <h2><i class='bx bx-library'></i> Mi Biblioteca</h2>
+          <p>Tus juegos adquiridos.</p>
         </div>
-        <div class="game-info">
-          <span class="category-tag">{{game.category}}</span>
-          <h3>{{game.title}}</h3>
+      </div>
 
-          <div class="card-actions">
-            <a [href]="game.download_url" target="_blank" class="btn-primary" style="width: 100%; justify-content: center; text-decoration: none;">
-              <i class='bx bx-download'></i> Descargar
-            </a>
+      <div class="games-grid">
+        @for (game of myGames; track game.id) {
+          <div class="game-card">
+            <div class="card-img-wrapper">
+              <img [src]="game.imagen || game.image_url" [alt]="game.title" class="game-img">
+            </div>
+            <div class="game-info">
+              <span class="category-tag">{{game.category}}</span>
+              <h3>{{game.title}}</h3>
+              <div class="card-actions">
+                <a [href]="game.download_url" target="_blank" class="btn-primary" style="width: 100%; justify-content: center; text-decoration: none;">
+                  <i class='bx bx-download'></i> Descargar
+                </a>
+              </div>
+            </div>
           </div>
+        } @empty {
+          <div class="empty-inline">
+            <p>Aún no tienes juegos en tu biblioteca.</p>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="section-container" style="margin-top: 60px;">
+      <div class="page-header">
+        <div class="header-title">
+          <h2><i class='bx bx-heart'></i> Lista de Deseos</h2>
+          <p>Juegos que tienes en la mira.</p>
         </div>
       </div>
-    } @empty {
-      <div class="empty-state">
-        <i class='bx bx-ghost'></i>
-        <h3>Tu biblioteca está vacía</h3>
-        <p>Parece que aún no tienes juegos.</p>
-        <br>
-        <a routerLink="/explorar" class="btn-primary"><i class='bx bx-compass'></i> Ir a la tienda</a>
+
+      <div class="games-grid">
+        @for (game of wishlistGames; track game.id) {
+          <div class="game-card wishlist">
+            <div class="card-img-wrapper">
+              <img [src]="game.imagen || game.image_url" [alt]="game.title" class="game-img">
+            </div>
+            <div class="game-info">
+              <span class="category-tag">{{game.category}}</span>
+              <h3>{{game.title}}</h3>
+              <div class="card-actions">
+                <button class="btn-primary" style="flex: 1; justify-content: center;">
+                  <i class='bx bx-cart'></i> Comprar
+                </button>
+                <button class="btn-secondary" (click)="removeFromWishlist(game.id)">
+                  <i class='bx bx-trash'></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        } @empty {
+          <div class="empty-inline">
+            <p>Tu lista de deseos está vacía.</p>
+          </div>
+        }
       </div>
-    }
-  </div>
+    </div>
+
+  } @else {
+    <div class="auth-required-state">
+      <i class='bx bx-lock-alt'></i>
+      <h2>Acceso Restringido</h2>
+      <p>Debes iniciar sesión para ver tu biblioteca personal y lista de deseos.</p>
+      <br>
+      <a routerLink="/login" class="btn-primary">
+        <i class='bx bx-log-in'></i> Iniciar Sesión ahora
+      </a>
+    </div>
+  }
 </div>
