@@ -16,6 +16,7 @@ export class ManageGamesComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
 
   misJuegosPublicados: any[] = [];
+  filteredGames: any[] = [];
   categorias: any[] = [];
   searchTerm = '';
 
@@ -24,6 +25,7 @@ export class ManageGamesComponent implements OnInit {
   isEditing = false;
 
   gameForm: FormGroup;
+  private apiUrl = 'https://indie-backend-wz13.onrender.com/api';
 
   constructor() {
     this.gameForm = this.fb.group({
@@ -42,11 +44,12 @@ export class ManageGamesComponent implements OnInit {
   }
 
   cargarCategorias() {
-    this.http.get<any[]>('https://indie-backend-wz13.onrender.com/api/categories').subscribe({
+    this.http.get<any[]>(`${this.apiUrl}/categories`).subscribe({
       next: (data) => {
         this.categorias = data;
         this.cdr.detectChanges();
-      }
+      },
+      error: (err) => console.error(err)
     });
   }
 
@@ -54,25 +57,36 @@ export class ManageGamesComponent implements OnInit {
     const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    this.http.get<any[]>('https://indie-backend-wz13.onrender.com/api/my-games', { headers }).subscribe({
+    this.http.get<any[]>(`${this.apiUrl}/my-games`, { headers }).subscribe({
       next: (data) => {
         this.misJuegosPublicados = data;
-        this.cdr.detectChanges();
-      }
+        this.actualizarFiltro();
+      },
+      error: (err) => console.error(err)
     });
   }
 
-  get filteredGames() {
-    return this.misJuegosPublicados.filter(juego =>
-      juego.title.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
+  actualizarFiltro() {
+    if (!this.searchTerm) {
+      this.filteredGames = [...this.misJuegosPublicados];
+    } else {
+      this.filteredGames = this.misJuegosPublicados.filter(juego =>
+        juego.title.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }
+    this.cdr.detectChanges();
+  }
+
+  onSearchChange() {
+    this.actualizarFiltro();
   }
 
   abrirModalPublicar() {
     this.isEditing = false;
     this.juegoEnEdicion = null;
-    this.gameForm.reset({ price: 0 });
+    this.gameForm.reset({ price: 0, categoryId: '' });
     this.mostrarModal = true;
+    this.cdr.detectChanges();
   }
 
   abrirModalEditar(juego: any) {
@@ -87,12 +101,14 @@ export class ManageGamesComponent implements OnInit {
       downloadUrl: juego.download_url
     });
     this.mostrarModal = true;
+    this.cdr.detectChanges();
   }
 
   cerrarModal() {
     this.mostrarModal = false;
     this.juegoEnEdicion = null;
     this.gameForm.reset();
+    this.cdr.detectChanges();
   }
 
   guardarJuego() {
@@ -103,18 +119,20 @@ export class ManageGamesComponent implements OnInit {
     const data = this.gameForm.value;
 
     if (this.isEditing) {
-      this.http.put(`https://indie-backend-wz13.onrender.com/api/games/${this.juegoEnEdicion.id}`, data, { headers }).subscribe({
+      this.http.put(`${this.apiUrl}/games/${this.juegoEnEdicion.id}`, data, { headers }).subscribe({
         next: () => {
           this.cargarMisJuegos();
           this.cerrarModal();
-        }
+        },
+        error: (err) => console.error(err)
       });
     } else {
-      this.http.post('https://indie-backend-wz13.onrender.com/api/games', data, { headers }).subscribe({
+      this.http.post(`${this.apiUrl}/games`, data, { headers }).subscribe({
         next: () => {
           this.cargarMisJuegos();
           this.cerrarModal();
-        }
+        },
+        error: (err) => console.error(err)
       });
     }
   }
@@ -124,11 +142,12 @@ export class ManageGamesComponent implements OnInit {
       const token = localStorage.getItem('jwt_token');
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-      this.http.delete(`https://indie-backend-wz13.onrender.com/api/games/${id}`, { headers }).subscribe({
+      this.http.delete(`${this.apiUrl}/games/${id}`, { headers }).subscribe({
         next: () => {
           this.misJuegosPublicados = this.misJuegosPublicados.filter(juego => juego.id !== id);
-          this.cdr.detectChanges();
-        }
+          this.actualizarFiltro();
+        },
+        error: (err) => console.error(err)
       });
     }
   }

@@ -8,7 +8,7 @@
   </div>
 
   <div class="manage-controls">
-    <input type="text" class="search-input" placeholder="Buscar mis juegos por título..." [(ngModel)]="searchTerm">
+      <input type="text" class="search-input" placeholder="Buscar mis juegos por título..." [(ngModel)]="searchTerm" (input ="onSearchChange()">
   </div>
 
   <div class="dev-stats-grid">

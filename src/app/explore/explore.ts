@@ -70,6 +70,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
     this.http.get(`${this.apiUrl}/games`).subscribe({
       next: (data: any) => {
         this.allGames = data;
+
         this.filteredGames = [...this.allGames];
 
         const uniqueCats = Array.from(new Set(this.allGames.map(g => g.category)));

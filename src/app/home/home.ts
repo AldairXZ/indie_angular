@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { RouterModule, Router } from '@angular/router'; // <-- 1. Importamos Router
+import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../auth';
 
 @Component({
@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   private http = inject(HttpClient);
   private cdr = inject(ChangeDetectorRef);
   private authService = inject(AuthService);
-  private router = inject(Router); // <-- 2. Inyectamos el Router
+  private router = inject(Router);
   private apiUrl = 'https://indie-backend-wz13.onrender.com/api';
 
   get isAuthenticated(): boolean {
@@ -29,7 +29,6 @@ export class HomeComponent implements OnInit {
     if (this.isAuthenticated) {
       this.loadAllUserData();
     } else {
-      // 3. Si entra a la ruta principal y no tiene sesión, salta automático a explorar
       this.router.navigate(['/explorar']);
     }
   }
@@ -42,14 +41,14 @@ export class HomeComponent implements OnInit {
 
     this.http.get(`${this.apiUrl}/library`, { headers }).subscribe({
       next: (data: any) => {
-        this.myGames = data;
+        this.myGames = [...data];
         this.cdr.detectChanges();
       }
     });
 
     this.http.get(`${this.apiUrl}/wishlist`, { headers }).subscribe({
       next: (data: any) => {
-        this.wishlistGames = data;
+        this.wishlistGames = [...data];
         this.cdr.detectChanges();
       }
     });
