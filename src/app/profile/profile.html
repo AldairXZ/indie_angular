@@ -36,7 +36,8 @@
 
       <div class="profile-card">
         <h3><i class='bx bx-fingerprint'></i> Seguridad</h3>
-        <div class="security-options">
+        <div class="security-options" style="display: flex; flex-direction: column; gap: 15px;">
+
           <div class="security-item">
             <div class="sec-info">
               <strong>Autenticación Biométrica</strong>
@@ -44,6 +45,38 @@
             </div>
             <button class="btn-secondary"><i class='bx bx-plus'></i> Configurar</button>
           </div>
+
+          <div class="security-item" style="flex-wrap: wrap;">
+            <div class="sec-info">
+              <strong>Verificación por Correo (2FA)</strong>
+              <p>Recibe un código de seguridad en tu correo electrónico al iniciar sesión.</p>
+            </div>
+
+            @if (!usuario?.two_factor_enabled && !showEmailCodeInput) {
+              <button class="btn-secondary" (click)="solicitarCodigo2FA()">
+                <i class='bx bx-envelope'></i> Activar 2FA
+              </button>
+            }
+
+            @if (showEmailCodeInput) {
+              <div style="width: 100%; display: flex; gap: 10px; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #374151;">
+                <input type="text" class="input-modern" placeholder="Ingresa el código de 6 dígitos" [(ngModel)]="twoFactorCode" style="flex: 1;">
+                <button class="btn-cta-main" (click)="verificarCodigo2FA()" style="padding: 10px 20px; border-radius: 8px;">
+                  <i class='bx bx-check'></i> Verificar
+                </button>
+                <button class="btn-secondary" (click)="showEmailCodeInput = false" style="padding: 10px 15px;">
+                  Cancelar
+                </button>
+              </div>
+            }
+
+            @if (usuario?.two_factor_enabled) {
+              <span style="color: #10b981; font-weight: 700; display: flex; align-items: center; gap: 5px; font-size: 1rem;">
+                <i class='bx bxs-check-shield'></i> Protegido
+              </span>
+            }
+          </div>
+
         </div>
       </div>
     </div>

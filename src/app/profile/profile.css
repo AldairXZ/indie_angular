@@ -153,3 +153,28 @@
     grid-template-columns: 1fr;
   }
 }
+
+.qr-setup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  background: var(--bg-dark);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid var(--accent);
+}
+
+.qr-setup img {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.status-active {
+  color: #10b981;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
