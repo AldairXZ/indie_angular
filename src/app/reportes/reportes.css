@@ -1,0 +1,7 @@
+.report-container { max-width: 600px; margin: 50px auto; padding: 0 20px; }
+.report-card { background-color: var(--bg-card); padding: 40px; border-radius: 16px; border: 1px solid #374151; }
+.report-card h2 { display: flex; align-items: center; gap: 10px; color: var(--text-main); margin-bottom: 5px; }
+.subtitle { color: var(--text-muted); margin-bottom: 30px; font-size: 0.95rem; }
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px; }
+textarea.input-modern { resize: vertical; }

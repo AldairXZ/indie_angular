@@ -168,3 +168,9 @@
   font-weight: 600;
   cursor: pointer;
 }
+
+.content-area {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 70px); /* Resta la altura aproximada de tu topbar */
+}

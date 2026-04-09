@@ -1,40 +1,62 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
 :root {
-  --bg-base: #0a0a0c;
-  --bg-surface: #13141a;
-  --bg-surface-hover: #1f2129;
-  --accent-primary: #58a6ff;
-  --accent-primary-hover: #3b8ce6;
-  --accent-success: #2ea043;
-  --accent-danger: #f85149;
-  --text-main: #e6edf3;
-  --text-muted: #8b949e;
-  --border-color: #30363d;
+  --bg-dark: #0f1115;
+  --bg-card: #1a1d24;
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --accent: #6366f1; /* Un violeta/azul moderno */
+  --accent-hover: #4f46e5;
+  --danger: #ef4444;
 }
 
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
 }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background-color: var(--bg-base);
+  background-color: var(--bg-dark);
   color: var(--text-main);
-  line-height: 1.5;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
+/* Botones modernos genéricos */
+.btn-primary {
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
-button {
-  font-family: inherit;
+.btn-primary:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-2px);
+}
+
+/* Inputs modernos */
+.input-modern {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--bg-dark);
+  border: 1px solid #374151;
+  color: white;
+  border-radius: 8px;
+  margin-top: 5px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.input-modern:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
 }

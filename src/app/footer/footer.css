@@ -1,0 +1,11 @@
+.modern-footer { background-color: var(--bg-card); border-top: 1px solid #374151; padding: 40px 20px 20px; margin-top: auto; }
+.footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; gap: 20px; }
+.brand h3 { display: flex; align-items: center; gap: 8px; color: var(--accent); }
+.brand p { color: var(--text-muted); margin-top: 10px; font-size: 0.9rem; }
+.links { display: flex; flex-direction: column; gap: 10px; }
+.links a { color: var(--text-muted); text-decoration: none; display: flex; align-items: center; gap: 5px; transition: 0.3s; }
+.links a:hover { color: var(--accent); }
+.socials { display: flex; gap: 15px; }
+.social-icon { font-size: 1.8rem; color: var(--text-muted); transition: 0.3s; }
+.social-icon:hover { color: var(--text-main); transform: scale(1.1); }
+.copyright { text-align: center; color: var(--text-muted); font-size: 0.8rem; margin-top: 40px; border-top: 1px solid #374151; padding-top: 20px; }

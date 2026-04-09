@@ -1,110 +1,61 @@
-import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core'; // <-- 1. Importamos ChangeDetectorRef
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { AuthService } from '../auth';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-explore',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './explore.html',
   styleUrls: ['./explore.css']
 })
 export class ExploreComponent implements OnInit {
+  allGames: any[] = [];
   private http = inject(HttpClient);
-  private cdr = inject(ChangeDetectorRef);
-  private router = inject(Router);
-  private authService = inject(AuthService);
-
-  searchTerm = '';
-  selectedCategory = 'Todos';
-  categorias: string[] = ['Todos'];
-  juegos: any[] = [];
-
-  juegoSeleccionado: any = null;
-  mensajeModal: string = '';
+  private cdr = inject(ChangeDetectorRef); // <-- 2. Lo inyectamos aquí
+  private apiUrl = 'https://indie-backend-wz13.onrender.com/api';
 
   ngOnInit() {
-    this.http.get<any[]>('https://indie-backend-wz13.onrender.com/api/games').subscribe({
-      next: (data) => {
-        this.juegos = data.map(game => ({
-          ...game,
-          imagen: game.imagen || game.image_url || 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=300'
-        }));
+    this.loadGames();
+  }
 
-        const uniqueCategories = new Set(data.map(item => item.category));
-        this.categorias = ['Todos', ...Array.from(uniqueCategories)];
-
-        this.cdr.detectChanges();
+  loadGames() {
+    this.http.get(`${this.apiUrl}/games`).subscribe({
+      next: (data: any) => {
+        this.allGames = data;
+        this.cdr.detectChanges(); // <-- 3. ¡La magia! Obligamos a la pantalla a actualizarse
       },
-      error: (err) => {
-        console.error(err);
-      }
+      error: (err) => console.error(err)
     });
   }
 
-  get filteredGames() {
-    return this.juegos.filter(juego => {
-      const matchCategory = this.selectedCategory === 'Todos' || juego.category === this.selectedCategory;
-      const matchSearch = juego.title.toLowerCase().includes(this.searchTerm.toLowerCase());
-      return matchCategory && matchSearch;
-    });
-  }
-
-  setCategory(categoria: string) {
-    this.selectedCategory = categoria;
-  }
-
-  abrirModal(juego: any) {
-    this.juegoSeleccionado = juego;
-    this.mensajeModal = '';
-  }
-
-  cerrarModal() {
-    this.juegoSeleccionado = null;
-    this.mensajeModal = '';
-  }
-
-  agregarDeseo(id: number) {
-    if (!this.authService.isAuthenticated()) {
-      this.router.navigate(['/login']);
-      return;
-    }
+  // ... (tus funciones addToLibrary y addToWishlist se quedan exactamente igual)
+  addToLibrary(gameId: number) {
     const token = localStorage.getItem('jwt_token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    this.http.post('https://indie-backend-wz13.onrender.com/api/wishlist', { productId: id }, { headers }).subscribe({
-      next: () => {
-        this.mensajeModal = '¡Añadido a tu lista de deseos!';
-        this.cdr.detectChanges();
-      },
-      error: () => {
-        this.mensajeModal = 'Hubo un error al añadir a la lista.';
-        this.cdr.detectChanges();
-      }
-    });
-  }
-
-  adquirirJuego(id: number) {
-    if (!this.authService.isAuthenticated()) {
-      this.router.navigate(['/login']);
+    if (!token) {
+      alert('Debes iniciar sesión para añadir juegos.');
       return;
     }
 
-    const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    this.http.post(`${this.apiUrl}/library`, { productId: gameId }, { headers }).subscribe({
+      next: () => alert('¡Juego añadido a tu biblioteca!'),
+      error: (err) => console.error(err)
+    });
+  }
 
-    this.http.post('https://indie-backend-wz13.onrender.com/api/library', { productId: id }, { headers }).subscribe({
-      next: () => {
-        this.mensajeModal = '¡Añadido a tu biblioteca con éxito!';
-        this.cdr.detectChanges();
-      },
-      error: () => {
-        this.mensajeModal = 'Hubo un error al adquirir el juego.';
-        this.cdr.detectChanges();
-      }
+  addToWishlist(gameId: number) {
+    const token = localStorage.getItem('jwt_token');
+    if (!token) {
+      alert('Debes iniciar sesión para añadir a deseados.');
+      return;
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    this.http.post(`${this.apiUrl}/wishlist`, { productId: gameId }, { headers }).subscribe({
+      next: () => alert('¡Añadido a tu lista de deseos!'),
+      error: (err) => console.error(err)
     });
   }
 }

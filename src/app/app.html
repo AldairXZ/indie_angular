@@ -2,21 +2,31 @@
   @if (!isAuthRoute) {
     <aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
       <div class="sidebar-header">
-        <span class="logo-icon">🎮</span>
+        <span class="logo-icon"><i class='bx bx-joystick'></i></span>
         <h2 class="sidebar-title">IndieHub</h2>
       </div>
       <nav class="sidebar-nav">
         <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-          <span class="nav-icon">🏠</span>
+          <span class="nav-icon"><i class='bx bx-home-alt'></i></span>
           <span class="nav-text">Catálogo</span>
         </a>
         <a routerLink="/explorar" routerLinkActive="active">
-          <span class="nav-icon">🔍</span>
+          <span class="nav-icon"><i class='bx bx-compass'></i></span>
           <span class="nav-text">Explorar</span>
         </a>
+
+        <a routerLink="/foro" routerLinkActive="active">
+          <span class="nav-icon"><i class='bx bx-message-square-dots'></i></span>
+          <span class="nav-text">Comunidad</span>
+        </a>
+        <a routerLink="/reportes" routerLinkActive="active">
+          <span class="nav-icon"><i class='bx bx-support'></i></span>
+          <span class="nav-text">Soporte</span>
+        </a>
+
         @if (hasPermission('publish_games')) {
           <a routerLink="/panel-desarrollador" routerLinkActive="active">
-            <span class="nav-icon">⚙️</span>
+            <span class="nav-icon"><i class='bx bx-code-block'></i></span>
             <span class="nav-text">Panel Dev</span>
           </a>
         }
@@ -28,24 +38,36 @@
     @if (!isAuthRoute) {
       <header class="topbar">
         <div class="topbar-left">
-          <button class="menu-toggle" (click)="toggleSidebar()">☰</button>
+          <button class="menu-toggle" (click)="toggleSidebar()">
+            <i class='bx bx-menu'></i>
+          </button>
           <h1>Plataforma Indie</h1>
         </div>
         <nav class="topbar-right">
           @if (isAuthenticated) {
             <a routerLink="/perfil" class="profile-icon-link">
-              <span class="profile-avatar">👤</span>
+              <span class="profile-avatar"><i class='bx bx-user-circle'></i></span>
             </a>
-            <button class="btn-logout" (click)="logout()">Cerrar Sesión</button>
+            <button class="btn-primary" (click)="logout()" style="padding: 8px 15px; font-size: 0.9rem;">
+              <i class='bx bx-log-out'></i> Salir
+            </button>
           } @else {
-            <a routerLink="/login" class="btn-login">Iniciar Sesión</a>
+            <a routerLink="/login" class="btn-primary" style="text-decoration: none;">
+              <i class='bx bx-log-in'></i> Iniciar Sesión
+            </a>
           }
         </nav>
       </header>
     }
 
     <main class="content-area" [class.full-screen]="isAuthRoute">
-      <router-outlet></router-outlet>
+      <div class="page-content" style="flex: 1;">
+        <router-outlet></router-outlet>
+      </div>
+
+      @if (!isAuthRoute) {
+        <app-footer></app-footer>
+      }
     </main>
   </div>
 </div>

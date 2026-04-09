@@ -2,11 +2,12 @@ import { Component, inject } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
 import { AuthService } from './auth';
 import { filter } from 'rxjs/operators';
+import { Footer } from './footer/footer';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, Footer],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })
@@ -17,7 +18,7 @@ export class AppComponent {
   isSidebarCollapsed = false;
   isAuthRoute = false;
 
-    constructor() {
+  constructor() {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {

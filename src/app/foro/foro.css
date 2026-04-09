@@ -1,0 +1,10 @@
+.foro-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+.foro-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #374151; padding-bottom: 20px; margin-bottom: 30px; }
+.thread-list { display: flex; flex-direction: column; gap: 15px; }
+.thread-card { background-color: var(--bg-card); padding: 20px; border-radius: 12px; display: flex; align-items: center; gap: 20px; transition: 0.3s; border: 1px solid transparent; }
+.thread-card:hover { border-color: var(--accent); transform: translateX(5px); }
+.thread-icon { font-size: 2rem; color: var(--accent); background: rgba(99, 102, 241, 0.1); padding: 15px; border-radius: 12px; }
+.thread-content { flex: 1; }
+.thread-content h3 { margin-bottom: 5px; color: var(--text-main); font-size: 1.2rem; }
+.meta { color: var(--text-muted); font-size: 0.9rem; }
+.thread-stats { color: var(--text-muted); font-size: 0.9rem; display: flex; align-items: center; gap: 5px; }
