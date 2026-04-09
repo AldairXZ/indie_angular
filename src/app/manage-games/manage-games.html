@@ -1,53 +1,98 @@
-<div class="page-container">
-  <div class="page-header">
-    <div class="header-title">
-      <h2><i class='bx bx-code-block'></i> Panel de Desarrollador</h2>
-      <p>Publica y gestiona tus títulos en la tienda.</p>
+<div class="manage-container">
+  <div class="manage-header">
+    <div class="header-text">
+      <h2>Panel de Desarrollador</h2>
+      <p>Gestiona y publica tus juegos en la plataforma.</p>
     </div>
+    <button class="btn-publish" (click)="abrirModalPublicar()">+ Nuevo Juego</button>
   </div>
 
-  <div class="dev-card">
-    <h3><i class='bx bx-cloud-upload'></i> Publicar Nuevo Juego</h3>
-
-    <form>
-      <div class="form-grid">
-        <div class="form-group">
-          <label>Título del Juego</label>
-          <input type="text" class="input-modern" placeholder="Ej: Cyber Neon">
-        </div>
-
-        <div class="form-group">
-          <label>Categoría</label>
-          <select class="input-modern">
-            <option value="" disabled selected>Selecciona una categoría...</option>
-            <option value="Acción">Acción</option>
-            <option value="Aventura">Aventura</option>
-            <option value="RPG">RPG</option>
-            <option value="Plataformas">Plataformas</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>Precio (USD)</label>
-          <input type="number" class="input-modern" placeholder="0.00">
-        </div>
-
-        <div class="form-group">
-          <label>URL de la Imagen (Portada)</label>
-          <input type="text" class="input-modern" placeholder="https://...">
-        </div>
-
-        <div class="form-group full-width">
-          <label>Descripción del Juego</label>
-          <textarea class="input-modern" rows="4" placeholder="De qué trata tu juego..."></textarea>
-        </div>
-      </div>
-
-      <div class="form-actions">
-        <button type="submit" class="btn-cta-main" style="width: auto; padding: 12px 30px;">
-          <i class='bx bx-check'></i> Guardar y Publicar
-        </button>
-      </div>
-    </form>
+  <div class="manage-controls">
+    <input type="text" class="search-input" placeholder="Buscar mis juegos por título..." [(ngModel)]="searchTerm">
   </div>
+
+  <div class="dev-stats-grid">
+    @for (juego of filteredGames; track juego.id) {
+      <div class="stat-card">
+        <img [src]="juego.image_url || 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=300'" [alt]="juego.title" class="dev-game-img">
+        <h4>{{ juego.title }}</h4>
+        <div class="stats">
+          <span class="genre-tag">{{ juego.category }}</span>
+          <span>💲 {{ juego.price == 0 ? 'Gratis' : juego.price }}</span>
+        </div>
+        <div class="action-buttons">
+          <button class="btn-edit" (click)="abrirModalEditar(juego)">Editar</button>
+          <button class="btn-delete" (click)="eliminarJuego(juego.id)">Eliminar</button>
+        </div>
+      </div>
+    }
+
+    @if (filteredGames.length === 0) {
+      <div class="empty-state">
+        @if (searchTerm) {
+          <h3>No se encontraron resultados</h3>
+          <p>Ningún juego coincide con tu búsqueda "{{ searchTerm }}".</p>
+        } @else {
+          <h3>Aún no tienes juegos publicados</h3>
+          <p>Haz clic en "Nuevo Juego" para empezar a compartir tus creaciones.</p>
+        }
+      </div>
+    }
+  </div>
+
+  @if (mostrarModal) {
+    <div class="modal-backdrop" (click)="cerrarModal()">
+      <div class="modal-content crud-modal" (click)="$event.stopPropagation()">
+        <div class="modal-header-crud">
+          <h3>{{ isEditing ? 'Editar Juego' : 'Publicar Nuevo Juego' }}</h3>
+          <button class="close-btn" (click)="cerrarModal()">✕</button>
+        </div>
+
+        <form [formGroup]="gameForm" (ngSubmit)="guardarJuego()">
+          <div class="form-group">
+            <label>Título del Juego</label>
+            <input type="text" formControlName="title" class="modern-input">
+          </div>
+
+          <div class="form-group">
+            <label>Descripción</label>
+            <textarea formControlName="description" rows="3" class="modern-input"></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group half">
+              <label>Categoría</label>
+              <select formControlName="categoryId" class="modern-input">
+                <option value="" disabled selected>Selecciona un género</option>
+                @for (cat of categorias; track cat.id) {
+                  <option [value]="cat.id">{{ cat.name }}</option>
+                }
+              </select>
+            </div>
+            <div class="form-group half">
+              <label>Precio (USD)</label>
+              <input type="number" formControlName="price" step="0.01" min="0" class="modern-input">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>URL de la Imagen de Portada</label>
+            <input type="url" formControlName="imageUrl" class="modern-input">
+          </div>
+
+          <div class="form-group">
+            <label>URL de Descarga del Archivo</label>
+            <input type="url" formControlName="downloadUrl" class="modern-input">
+          </div>
+
+          <div class="modal-actions-crud">
+            <button type="button" class="btn-cancel" (click)="cerrarModal()">Cancelar</button>
+            <button type="submit" [disabled]="gameForm.invalid" class="btn-save">
+              {{ isEditing ? 'Guardar Cambios' : 'Publicar Juego' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
 </div>
