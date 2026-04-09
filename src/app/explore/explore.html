@@ -10,7 +10,7 @@
             <h2>{{feat.title}}</h2>
             <p>{{feat.description}}</p>
             <div class="carousel-actions">
-              <button class="btn-cta-main" style="width: auto;">
+              <button class="btn-cta-main" style="width: auto;" [routerLink]="['/juego', feat.id]">
                 <i class='bx bx-play'></i> Descubrir
               </button>
               <span class="carousel-price">{{ feat.price > 0 ? (feat.price | currency) : 'Gratis' }}</span>

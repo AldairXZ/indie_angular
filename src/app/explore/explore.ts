@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -28,6 +28,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 
   private http = inject(HttpClient);
   private cdr = inject(ChangeDetectorRef);
+  private router = inject(Router);
   private apiUrl = 'https://indie-backend-wz13.onrender.com/api';
 
   ngOnInit() {
@@ -70,12 +71,9 @@ export class ExploreComponent implements OnInit, OnDestroy {
     this.http.get(`${this.apiUrl}/games`).subscribe({
       next: (data: any) => {
         this.allGames = data;
-
         this.filteredGames = [...this.allGames];
-
         const uniqueCats = Array.from(new Set(this.allGames.map(g => g.category)));
         this.categories = ['Todos', ...uniqueCats];
-
         this.cdr.detectChanges();
       },
       error: (err) => console.error(err)
@@ -87,9 +85,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
       const titleMatch = game.title.toLowerCase().includes(this.searchTerm.toLowerCase());
       const catSearchMatch = game.category.toLowerCase().includes(this.searchTerm.toLowerCase());
       const matchesSearch = titleMatch || catSearchMatch;
-
       const matchesCategory = this.selectedCategory === 'Todos' || game.category === this.selectedCategory;
-
       return matchesSearch && matchesCategory;
     });
     this.cdr.detectChanges();
@@ -109,7 +105,9 @@ export class ExploreComponent implements OnInit, OnDestroy {
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     this.http.post(`${this.apiUrl}/library`, { productId: gameId }, { headers }).subscribe({
-      next: () => alert('Juego añadido a tu biblioteca.'),
+      next: () => {
+        this.router.navigate(['/juego', gameId]);
+      },
       error: (err) => console.error(err)
     });
   }
