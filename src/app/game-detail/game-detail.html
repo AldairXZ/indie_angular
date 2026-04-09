@@ -1,1 +1,60 @@
-<p>game-detail works!</p>
+@if (game) {
+  <div class="detail-container">
+    <header class="detail-hero" [style.background-image]="'url(' + game.image_url + ')'">
+      <div class="hero-overlay">
+        <div class="hero-content">
+          <span class="category-pill">{{game.category}}</span>
+          <h1>{{game.title}}</h1>
+        </div>
+      </div>
+    </header>
+
+    <div class="detail-grid">
+      <section class="main-content">
+        <div class="media-gallery">
+          <img [src]="game.image_url" class="main-bundle-img">
+          <div class="screenshots-strip">
+            <img [src]="game.image_url">
+            <div class="placeholder-img"><i class='bx bx-image'></i></div>
+            <div class="placeholder-img"><i class='bx bx-image'></i></div>
+          </div>
+        </div>
+
+        <div class="description-section">
+          <h2>Sobre el juego</h2>
+          <p>{{game.description}}</p>
+        </div>
+      </section>
+
+      <aside class="sidebar-purchase">
+        <div class="purchase-card">
+          <img [src]="game.image_url" class="sidebar-logo">
+          <div class="price-row">
+            <span class="price-tag">{{ game.price > 0 ? (game.price | currency) : 'Gratis' }}</span>
+          </div>
+          <button class="btn-buy" (click)="addToLibrary()">
+            <i class='bx bx-cart-add'></i> Obtener ahora
+          </button>
+          <button class="btn-wish">
+            <i class='bx bx-heart'></i> Añadir a lista de deseos
+          </button>
+
+          <div class="game-meta">
+            <div class="meta-item">
+              <span>Desarrollador</span>
+              <strong>{{game.developer}}</strong>
+            </div>
+            <div class="meta-item">
+              <span>Publicado</span>
+              <strong>{{game.created_at | date}}</strong>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+} @else {
+  <div class="loading-screen">
+    <i class='bx bx-loader-alt bx-spin'></i>
+  </div>
+}

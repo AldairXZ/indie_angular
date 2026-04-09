@@ -1,0 +1,119 @@
+.detail-container {
+  min-height: 100vh;
+  padding-bottom: 50px;
+}
+
+.detail-hero {
+  height: 400px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--bg-dark), transparent);
+  display: flex;
+  align-items: flex-end;
+  padding: 40px;
+}
+
+.category-pill {
+  background: var(--accent);
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.hero-content h1 {
+  font-size: 3.5rem;
+  margin-top: 10px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 40px;
+  max-width: 1300px;
+  margin: -50px auto 0;
+  padding: 0 20px;
+  position: relative;
+  z-index: 10;
+}
+
+.purchase-card {
+  background: var(--bg-card);
+  padding: 25px;
+  border-radius: 16px;
+  border: 1px solid #374151;
+  position: sticky;
+  top: 100px;
+}
+
+.sidebar-logo {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.price-tag {
+  font-size: 1.5rem;
+  font-weight: 800;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.btn-buy {
+  width: 100%;
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-wish {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  color: white;
+  border: 1px solid #374151;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.description-section {
+  margin-top: 40px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.description-section h2 {
+  color: white;
+  margin-bottom: 20px;
+}
+
+.game-meta {
+  margin-top: 30px;
+  border-top: 1px solid #374151;
+  padding-top: 20px;
+}
+
+.meta-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+.meta-item span { color: var(--text-muted); }

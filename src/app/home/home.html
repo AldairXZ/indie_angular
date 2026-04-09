@@ -11,15 +11,16 @@
 
       <div class="games-grid">
         @for (game of myGames; track game.id) {
-          <div class="game-card">
+        <div class="game-card" [routerLink]="['/juego', game.id]" style="cursor: pointer;">
             <div class="card-img-wrapper">
               <img [src]="game.imagen || game.image_url" [alt]="game.title" class="game-img">
             </div>
             <div class="game-info">
               <span class="category-tag">{{game.category}}</span>
               <h3>{{game.title}}</h3>
+
               <div class="card-actions">
-                <a [href]="game.download_url" target="_blank" class="btn-primary" style="width: 100%; justify-content: center; text-decoration: none;">
+                <a [href]="game.download_url" target="_blank" class="btn-primary" (click)="$event.stopPropagation()" style="width: 100%; justify-content: center; text-decoration: none;">
                   <i class='bx bx-download'></i> Descargar
                 </a>
               </div>
