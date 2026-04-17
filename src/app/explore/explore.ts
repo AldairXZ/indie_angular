@@ -17,9 +17,9 @@ export class ExploreComponent implements OnInit, OnDestroy {
   categories: string[] = ['Todos'];
   selectedCategory: string = 'Todos';
   searchTerm: string = '';
-
   currentSlide = 0;
   slideInterval: any;
+  usuario: any = null;
   featuredGames = [
     { id: 1, title: 'Cyber Neon City', description: 'Explora un mundo distópico lleno de neón, acción y decisiones que cambiarán la historia.', image_url: 'https://images.unsplash.com/photo-1605901309584-818e25960b8f?q=80&w=1200&auto=format&fit=crop', price: 14.99, tag: 'Novedad Mundial' },
     { id: 2, title: 'Fantasy Quest', description: 'Un RPG de mundo abierto donde forjarás tu propio destino entre dragones y magia antigua.', image_url: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1200&auto=format&fit=crop', price: 9.99, tag: 'Oferta Especial -50%' },
@@ -32,6 +32,10 @@ export class ExploreComponent implements OnInit, OnDestroy {
   private apiUrl = 'https://indie-backend-wz13.onrender.com/api';
 
   ngOnInit() {
+    const userData = localStorage.getItem('user_data');
+    if (userData) {
+      this.usuario = JSON.parse(userData);
+    }
     this.loadGames();
     this.startCarousel();
   }
@@ -48,9 +52,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
   }
 
   stopCarousel() {
-    if (this.slideInterval) {
-      clearInterval(this.slideInterval);
-    }
+    if (this.slideInterval) clearInterval(this.slideInterval);
   }
 
   nextSlide() {
@@ -103,6 +105,12 @@ export class ExploreComponent implements OnInit, OnDestroy {
       return;
     }
 
+    if (!this.usuario?.two_factor_enabled) {
+      alert('Seguridad requerida: Debes activar la verificación en dos pasos en tu Perfil para adquirir juegos.');
+      this.router.navigate(['/profile']);
+      return;
+    }
+
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     this.http.post(`${this.apiUrl}/library`, { productId: gameId }, { headers }).subscribe({
       next: () => {
@@ -118,7 +126,6 @@ export class ExploreComponent implements OnInit, OnDestroy {
       alert('Debes iniciar sesión para añadir a deseados.');
       return;
     }
-
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     this.http.post(`${this.apiUrl}/wishlist`, { productId: gameId }, { headers }).subscribe({
       next: () => alert('Añadido a tu lista de deseos.'),

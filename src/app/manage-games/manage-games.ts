@@ -2,6 +2,7 @@ import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-games',
@@ -14,16 +15,15 @@ export class ManageGamesComponent implements OnInit {
   private http = inject(HttpClient);
   private fb = inject(FormBuilder);
   private cdr = inject(ChangeDetectorRef);
+  private router = inject(Router);
 
   misJuegosPublicados: any[] = [];
   filteredGames: any[] = [];
   categorias: any[] = [];
   searchTerm = '';
-
   juegoEnEdicion: any = null;
   mostrarModal = false;
   isEditing = false;
-
   gameForm: FormGroup;
   private apiUrl = 'https://indie-backend-wz13.onrender.com/api';
 
@@ -56,7 +56,6 @@ export class ManageGamesComponent implements OnInit {
   cargarMisJuegos() {
     const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
     this.http.get<any[]>(`${this.apiUrl}/my-games`, { headers }).subscribe({
       next: (data) => {
         this.misJuegosPublicados = data;
@@ -82,6 +81,12 @@ export class ManageGamesComponent implements OnInit {
   }
 
   abrirModalPublicar() {
+    const userData = JSON.parse(localStorage.getItem('user_data') || '{}');
+    if (!userData.two_factor_enabled) {
+      alert('Acción bloqueada: Debes verificar tu cuenta con 2FA en tu Perfil para poder subir juegos.');
+      this.router.navigate(['/profile']);
+      return;
+    }
     this.isEditing = false;
     this.juegoEnEdicion = null;
     this.gameForm.reset({ price: 0, categoryId: '' });
@@ -113,7 +118,6 @@ export class ManageGamesComponent implements OnInit {
 
   guardarJuego() {
     if (this.gameForm.invalid) return;
-
     const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const data = this.gameForm.value;
@@ -141,7 +145,6 @@ export class ManageGamesComponent implements OnInit {
     if (confirm('¿Estás seguro de que deseas eliminar este juego de forma permanente?')) {
       const token = localStorage.getItem('jwt_token');
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
       this.http.delete(`${this.apiUrl}/games/${id}`, { headers }).subscribe({
         next: () => {
           this.misJuegosPublicados = this.misJuegosPublicados.filter(juego => juego.id !== id);

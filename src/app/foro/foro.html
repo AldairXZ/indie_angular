@@ -1,67 +1,34 @@
-<div class="foro-layout">
-  <div class="foro-main">
-    <div class="foro-header">
-      <h2><i class='bx bx-message-square-dots'></i> Comunidad Indie</h2>
-      <button class="btn-primary"><i class='bx bx-plus'></i> Crear Discusión</button>
+<div class="page-container">
+  <div class="page-header">
+    <div class="header-title">
+      <h2><i class='bx bx-group'></i> Comunidad IndieHub</h2>
+      <p>Comparte tus experiencias, pide consejos y conecta con otros desarrolladores.</p>
     </div>
+    <button class="btn-publish" (click)="nuevoTema()">+ Crear Publicación</button>
+  </div>
 
-    <div class="thread-list">
-      <div class="thread-card">
-        <div class="thread-icon"><i class='bx bx-code-alt'></i></div>
-        <div class="thread-content">
-          <h3>¿Cómo optimizar modelos 3D para navegadores?</h3>
-          <p class="meta">Por <strong>ArturDev</strong> hace 1 hora en <em>Optimización</em></p>
+  <div class="forum-grid">
+    <div class="post-card" *ngFor="let post of posts">
+      <div class="post-header">
+        <div class="user-info">
+          <div class="mini-avatar"><i class='bx bx-user'></i></div>
+          <div class="meta">
+            <span class="username">{{post.author}}</span>
+            <span class="date">{{post.date | date}}</span>
+          </div>
         </div>
-        <div class="thread-stats">
-          <span><i class='bx bx-show'></i> 142</span>
-          <span><i class='bx bx-comment'></i> 12</span>
-        </div>
+        <span class="category-tag">{{post.tag}}</span>
+      </div>
+
+      <div class="post-body">
+        <h3>{{post.title}}</h3>
+        <p>{{post.content}}</p>
+      </div>
+
+      <div class="post-footer">
+        <button class="action-btn"><i class='bx bx-comment'></i> {{post.comments}} Comentarios</button>
+        <button class="action-btn"><i class='bx bx-upvote'></i> {{post.likes}}</button>
       </div>
     </div>
   </div>
-
-  <aside class="foro-sidebar">
-    <div class="sidebar-section">
-      <h3><i class='bx bx-link-external'></i> Sitios Complementarios</h3>
-      <p class="section-desc">Mantente al día con las últimas noticias del mundo gaming.</p>
-
-      <div class="external-links">
-        <a href="https://www.levelup.com" target="_blank" class="external-card">
-          <div class="ext-icon"><i class='bx bx-news'></i></div>
-          <div class="ext-info">
-            <strong>Level Up</strong>
-            <span>Noticias y análisis</span>
-          </div>
-          <i class='bx bx-chevron-right'></i>
-        </a>
-
-        <a href="https://www.3djuegos.com" target="_blank" class="external-card">
-          <div class="ext-icon"><i class='bx bx-game'></i></div>
-          <div class="ext-info">
-            <strong>3DJuegos</strong>
-            <span>Comunidad y reviews</span>
-          </div>
-          <i class='bx bx-chevron-right'></i>
-        </a>
-
-        <a href="https://es.ign.com" target="_blank" class="external-card">
-          <div class="ext-icon"><i class='bx bxl-medium-old'></i></div>
-          <div class="ext-info">
-            <strong>IGN España</strong>
-            <span>Actualidad mundial</span>
-          </div>
-          <i class='bx bx-chevron-right'></i>
-        </a>
-      </div>
-    </div>
-
-    <div class="sidebar-section">
-      <h3><i class='bx bx-trending-up'></i> Tendencias</h3>
-      <ul class="trending-list">
-        <li>#Godot4</li>
-        <li>#WebAuthn</li>
-        <li>#IndieDevTips</li>
-      </ul>
-    </div>
-  </aside>
 </div>
