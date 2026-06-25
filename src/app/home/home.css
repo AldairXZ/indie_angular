@@ -73,3 +73,25 @@
 .game-card.wishlist {
   opacity: 0.9;
 }
+
+/* --- ESTILOS PRÁCTICA 8 --- */
+.event-banner {
+  background: linear-gradient(90deg, #f59e0b, #ef4444);
+  color: white;
+  text-align: center;
+  padding: 12px;
+  font-weight: bold;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+  animation: slideDown 0.5s ease-out;
+}
+
+.bg-summer-event {
+  background: radial-gradient(circle at top, rgba(245, 158, 11, 0.05), transparent);
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}

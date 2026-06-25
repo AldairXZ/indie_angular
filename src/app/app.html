@@ -49,12 +49,15 @@
         </div>
         <nav class="topbar-right">
           @if (isAuthenticated) {
-            <a routerLink="/perfil" class="profile-icon-link">
+            <div class="user-dropdown-container" (click)="toggleMenu()">
               <span class="profile-avatar"><i class='bx bx-user-circle'></i></span>
-            </a>
-            <button class="btn-primary" (click)="logout()" style="padding: 8px 15px; font-size: 0.9rem;">
-              <i class='bx bx-log-out'></i> Salir
-            </button>
+
+              <div class="dropdown-menu" [class.show]="menuAbierto">
+                <a routerLink="/perfil" class="dropdown-item"><i class='bx bx-user'></i> Mi Perfil</a>
+                <hr>
+                <a (click)="logout()" class="dropdown-item danger"><i class='bx bx-log-out'></i> Salir</a>
+              </div>
+            </div>
           } @else {
             <a routerLink="/login" class="btn-primary" style="text-decoration: none;">
               <i class='bx bx-log-in'></i> Iniciar Sesión

@@ -18,6 +18,9 @@ export class AppComponent {
   isSidebarCollapsed = false;
   isAuthRoute = false;
 
+  // Práctica 7: Estado del menú
+  menuAbierto = false;
+
   constructor() {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
@@ -36,10 +39,16 @@ export class AppComponent {
 
   logout() {
     this.authService.logout();
+    this.menuAbierto = false; // Cierra el menú al salir
     this.router.navigate(['/']);
   }
 
   toggleSidebar() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
+
+  // Práctica 7: Función detonada por el evento del puntero
+  toggleMenu() {
+    this.menuAbierto = !this.menuAbierto;
   }
 }

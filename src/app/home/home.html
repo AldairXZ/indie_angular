@@ -1,4 +1,11 @@
-<div class="page-container">
+<div class="page-container" [ngClass]="{'bg-summer-event': isSummerFestActive}">
+
+  @if (isSummerFestActive) {
+    <div class="event-banner">
+      🌴 ¡Indie Summer Fest en curso! Descubre nuevos mundos hasta el 31 de Julio. ☀️
+    </div>
+  }
+
   @if (isAuthenticated) {
 
     <div class="section-container">

@@ -15,6 +15,9 @@ export class HomeComponent implements OnInit {
   myGames: any[] = [];
   wishlistGames: any[] = [];
 
+  // Práctica 8: Bandera del evento de calendario
+  isSummerFestActive: boolean = false;
+
   private http = inject(HttpClient);
   private cdr = inject(ChangeDetectorRef);
   private authService = inject(AuthService);
@@ -26,10 +29,24 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Práctica 8: Verificar el evento al cargar el componente
+    this.verificarEventoTemporada();
+
     if (this.isAuthenticated) {
       this.loadAllUserData();
     } else {
       this.router.navigate(['/explorar']);
+    }
+  }
+
+  // Práctica 8: Función calendarizada
+  verificarEventoTemporada() {
+    const fechaActual = new Date();
+    const mesActual = fechaActual.getMonth(); // 0 = Enero, 5 = Junio, 6 = Julio
+
+    // Si estamos en Junio o Julio, activamos el evento
+    if (mesActual === 5 || mesActual === 6) {
+      this.isSummerFestActive = true;
     }
   }
 
