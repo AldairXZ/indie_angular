@@ -1,1 +1,58 @@
-<p>admin-panel works!</p>
+<div class="admin-container">
+  <h2>Gestión de Usuarios y Roles</h2>
+
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Usuario</th>
+        <th>Email</th>
+        <th>Rol</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>
+          <select [(ngModel)]="user.role" (change)="updateRole(user.id, user.role)">
+            <option value="user">Usuario Estándar</option>
+            <option value="admin">Administrador</option>
+          </select>
+        </td>
+        <td>
+          <span [class.active]="user.is_active" [class.inactive]="!user.is_active">
+            {{ user.is_active ? 'Activo' : 'Inactivo' }}
+          </span>
+        </td>
+        <td>
+          <button class="btn-warning" (click)="toggleStatus(user.id, !user.is_active)">
+            {{ user.is_active ? 'Desactivar' : 'Activar' }}
+          </button>
+          <button class="btn-danger" (click)="logicalDelete(user.id)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Bitácora de Auditoría</h2>
+  <table class="audit-table">
+    <thead>
+      <tr>
+        <th>Fecha y Hora</th>
+        <th>Usuario</th>
+        <th>Acción</th>
+        <th>Dirección IP</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let log of auditLogs">
+        <td>{{ log.created_at | date:'medium' }}</td>
+        <td>{{ log.username }}</td>
+        <td>{{ log.action }}</td>
+        <td>{{ log.ip_address }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
