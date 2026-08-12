@@ -105,12 +105,6 @@ export class ExploreComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (!this.usuario?.two_factor_enabled) {
-      alert('Seguridad requerida: Debes activar la verificación en dos pasos en tu Perfil para adquirir juegos.');
-      this.router.navigate(['/profile']);
-      return;
-    }
-
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     this.http.post(`${this.apiUrl}/library`, { productId: gameId }, { headers }).subscribe({
       next: () => {

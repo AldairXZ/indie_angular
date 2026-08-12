@@ -37,6 +37,13 @@
     </div>
 
     <div class="filter-controls">
+      <!-- Botón de Administrador (Solo visible si el rol es 'admin') -->
+      @if (usuario?.role === 'admin') {
+        <button class="btn-warning" style="margin-right: 15px; padding: 0.6rem 1.2rem;" routerLink="/admin-panel">
+          <i class='bx bx-shield-quarter'></i> Panel Admin
+        </button>
+      }
+
       <div class="search-box">
         <i class='bx bx-search'></i>
         <input type="text" class="input-modern" placeholder="Buscar por título o género..." [(ngModel)]="searchTerm" (input)="filterGames()">
