@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { ToastService } from '../toast';
 
 @Component({
   selector: 'app-admin-panel',
@@ -17,6 +18,7 @@ export class AdminPanelComponent implements OnInit {
 
   private http = inject(HttpClient);
   private router = inject(Router);
+  private toast = inject(ToastService);
   
   // URL de tu API
   private apiUrl = 'https://indie-backend-wz13.onrender.com/api/admin';
@@ -37,14 +39,20 @@ export class AdminPanelComponent implements OnInit {
   loadUsers() {
     this.http.get(`${this.apiUrl}/users`, { headers: this.getHeaders() }).subscribe({
       next: (data: any) => this.users = data,
-      error: (err) => console.error('Error al cargar usuarios', err)
+      error: (err) => {
+        console.error('Error al cargar usuarios', err);
+        this.toast.error('No se pudieron cargar los usuarios.');
+      }
     });
   }
 
   loadAuditLogs() {
     this.http.get(`${this.apiUrl}/logs`, { headers: this.getHeaders() }).subscribe({
       next: (data: any) => this.auditLogs = data,
-      error: (err) => console.error('Error al cargar bitácora', err)
+      error: (err) => {
+        console.error('Error al cargar bitácora', err);
+        this.toast.error('No se pudo cargar la bitácora de auditoría.');
+      }
     });
   }
 
@@ -52,10 +60,10 @@ export class AdminPanelComponent implements OnInit {
     if(confirm(`¿Estás seguro de cambiar el grupo/rol a ${newRole}?`)) {
       this.http.put(`${this.apiUrl}/users/${userId}/role`, { role: newRole }, { headers: this.getHeaders() }).subscribe({
         next: () => {
-          alert('Rol asignado correctamente.');
+          this.toast.success('Rol asignado correctamente.');
           this.loadAuditLogs();
         },
-        error: (err) => alert('Error al actualizar el rol.')
+        error: (err) => this.toast.error('Error al actualizar el rol.')
       });
     }
   }
@@ -65,10 +73,11 @@ export class AdminPanelComponent implements OnInit {
     if(confirm(`¿Deseas ${statusText} esta cuenta de usuario?`)) {
       this.http.put(`${this.apiUrl}/users/${userId}/status`, { is_active: isActive }, { headers: this.getHeaders() }).subscribe({
         next: () => {
+          this.toast.success(`Cuenta ${isActive ? 'habilitada' : 'deshabilitada'} correctamente.`);
           this.loadUsers();
           this.loadAuditLogs(); 
         },
-        error: (err) => alert(`Error al ${statusText} la cuenta.`)
+        error: (err) => this.toast.error(`Error al ${statusText} la cuenta.`)
       });
     }
   }
@@ -79,9 +88,9 @@ export class AdminPanelComponent implements OnInit {
         next: () => {
           this.loadUsers();
           this.loadAuditLogs();
-          alert('Usuario eliminado correctamente.');
+          this.toast.success('Usuario eliminado correctamente.');
         },
-        error: (err) => alert('Error al eliminar usuario.')
+        error: (err) => this.toast.error('Error al eliminar usuario.')
       });
     }
   }

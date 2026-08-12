@@ -2,7 +2,6 @@ import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-games',
@@ -15,7 +14,6 @@ export class ManageGamesComponent implements OnInit {
   private http = inject(HttpClient);
   private fb = inject(FormBuilder);
   private cdr = inject(ChangeDetectorRef);
-  private router = inject(Router);
 
   misJuegosPublicados: any[] = [];
   filteredGames: any[] = [];
@@ -81,12 +79,6 @@ export class ManageGamesComponent implements OnInit {
   }
 
   abrirModalPublicar() {
-    const userData = JSON.parse(localStorage.getItem('user_data') || '{}');
-    if (!userData.two_factor_enabled) {
-      alert('Acción bloqueada: Debes verificar tu cuenta con 2FA en tu Perfil para poder subir juegos.');
-      this.router.navigate(['/profile']);
-      return;
-    }
     this.isEditing = false;
     this.juegoEnEdicion = null;
     this.gameForm.reset({ price: 0, categoryId: '' });

@@ -16,11 +16,6 @@ export class Foro {
   ];
 
   nuevoTema() {
-    const userData = JSON.parse(localStorage.getItem('user_data') || '{}');
-    if (!userData.two_factor_enabled) {
-      alert('🔒 Seguridad requerida: Debes activar la verificación en dos pasos en tu Perfil para publicar en el foro.');
-      return;
-    }
     alert('Abriendo editor de nuevo tema...');
   }
 }

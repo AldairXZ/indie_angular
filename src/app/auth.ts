@@ -36,4 +36,12 @@ export class AuthService {
     const user = JSON.parse(userData);
     return user.permissions && user.permissions.includes(permission);
   }
+
+  hasRole(role: string): boolean {
+    const userData = localStorage.getItem('user_data');
+    if (!userData) return false;
+
+    const user = JSON.parse(userData);
+    return user.role === role;
+  }
 }

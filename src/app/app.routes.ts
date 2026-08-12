@@ -9,6 +9,7 @@ import { authGuard } from './auth-guard';
 import { RegisterComponent } from './register/register';
 import { Foro } from './foro/foro';
 import { Reportes } from './reportes/reportes';
+import { AdminPanelComponent } from './admin-panel/admin-panel';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, title: 'Inicio - Indie Games' },
@@ -18,6 +19,7 @@ export const routes: Routes = [
   { path: 'explorar', component: ExploreComponent, title: 'Explorar - Indie Games' },
   { path: 'login', component: LoginComponent, title: 'Iniciar Sesión - Indie Games' },
   { path: 'panel-desarrollador', component: ManageGamesComponent, canActivate: [authGuard], data: { requiredPermission: 'publish_games' }, title: 'Panel de Desarrollador' },
+  { path: 'admin-panel', component: AdminPanelComponent, canActivate: [authGuard], data: { requiredRole: 'admin' }, title: 'Panel de Administrador' },
   { path: 'perfil', component: ProfileComponent, canActivate: [authGuard], title: 'Mi Perfil - Indie Games' },
   { path: 'terminos-de-uso', component: TermsOfUse, title: 'Términos de Uso' }
 ];
