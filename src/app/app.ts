@@ -3,11 +3,12 @@ import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd } fro
 import { AuthService } from './auth';
 import { filter } from 'rxjs/operators';
 import { Footer } from './footer/footer';
+import { ToastComponent } from './toast/toast';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, Footer],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, Footer, ToastComponent],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })

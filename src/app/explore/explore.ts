@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ToastService } from '../toast';
 
 @Component({
   selector: 'app-explore',
@@ -29,6 +30,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
   private http = inject(HttpClient);
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
+  private toast = inject(ToastService);
   private apiUrl = 'https://indie-backend-wz13.onrender.com/api';
 
   ngOnInit() {
@@ -101,29 +103,38 @@ export class ExploreComponent implements OnInit, OnDestroy {
   addToLibrary(gameId: number) {
     const token = localStorage.getItem('jwt_token');
     if (!token) {
-      alert('Debes iniciar sesión para añadir juegos.');
+      this.toast.error('Debes iniciar sesión para añadir juegos.');
       return;
     }
+
+    const game = this.allGames.find(g => g.id === gameId);
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     this.http.post(`${this.apiUrl}/library`, { productId: gameId }, { headers }).subscribe({
       next: () => {
+        this.toast.success(`"${game?.title ?? 'El juego'}" se añadió a tu biblioteca.`);
         this.router.navigate(['/juego', gameId]);
       },
-      error: (err) => console.error(err)
+      error: (err) => {
+        console.error(err);
+        this.toast.error('No se pudo añadir el juego a tu biblioteca. Intenta de nuevo.');
+      }
     });
   }
 
   addToWishlist(gameId: number) {
     const token = localStorage.getItem('jwt_token');
     if (!token) {
-      alert('Debes iniciar sesión para añadir a deseados.');
+      this.toast.error('Debes iniciar sesión para añadir a deseados.');
       return;
     }
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     this.http.post(`${this.apiUrl}/wishlist`, { productId: gameId }, { headers }).subscribe({
-      next: () => alert('Añadido a tu lista de deseos.'),
-      error: (err) => console.error(err)
+      next: () => this.toast.success('Añadido a tu lista de deseos.'),
+      error: (err) => {
+        console.error(err);
+        this.toast.error('No se pudo añadir a tu lista de deseos.');
+      }
     });
   }
 }

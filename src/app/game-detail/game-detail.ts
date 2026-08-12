@@ -2,6 +2,7 @@ import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ToastService } from '../toast';
 
 @Component({
   selector: 'app-game-detail',
@@ -15,6 +16,7 @@ export class GameDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private http = inject(HttpClient);
   private cdr = inject(ChangeDetectorRef);
+  private toast = inject(ToastService);
   private apiUrl = 'https://indie-backend-wz13.onrender.com/api';
 
   ngOnInit() {
@@ -35,10 +37,17 @@ export class GameDetailComponent implements OnInit {
 
   addToLibrary() {
     const token = localStorage.getItem('jwt_token');
-    if (!token) return;
+    if (!token) {
+      this.toast.error('Debes iniciar sesión para añadir juegos.');
+      return;
+    }
     const headers = new HttpHeaders().set('authorization', `Bearer ${token}`);
     this.http.post(`${this.apiUrl}/library`, { productId: this.game.id }, { headers }).subscribe({
-      next: () => alert('Añadido correctamente')
+      next: () => this.toast.success(`"${this.game?.title ?? 'El juego'}" se añadió a tu biblioteca.`),
+      error: (err) => {
+        console.error(err);
+        this.toast.error('No se pudo añadir el juego a tu biblioteca. Intenta de nuevo.');
+      }
     });
   }
 }
