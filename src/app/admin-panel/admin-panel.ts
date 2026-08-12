@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-admin-panel',
   standalone: true,
-  imports: [CommonModule, FormsModule], // Importante: FormsModule es necesario para el [(ngModel)] de los roles
+  imports: [CommonModule, FormsModule],
   templateUrl: './admin-panel.html',
   styleUrls: ['./admin-panel.css']
 })
@@ -17,8 +17,8 @@ export class AdminPanelComponent implements OnInit {
 
   private http = inject(HttpClient);
   private router = inject(Router);
-
-  // Apunta a tu servidor de Render
+  
+  // URL de tu API
   private apiUrl = 'https://indie-backend-wz13.onrender.com/api/admin';
 
   ngOnInit() {
@@ -26,7 +26,6 @@ export class AdminPanelComponent implements OnInit {
     this.loadAuditLogs();
   }
 
-  // Genera los headers con el token JWT de seguridad
   private getHeaders() {
     const token = localStorage.getItem('jwt_token');
     if (!token) {
@@ -35,61 +34,52 @@ export class AdminPanelComponent implements OnInit {
     return new HttpHeaders().set('authorization', `Bearer ${token}`);
   }
 
-  // 1. Cargar todos los usuarios (excluyendo eliminados lógicamente)
   loadUsers() {
     this.http.get(`${this.apiUrl}/users`, { headers: this.getHeaders() }).subscribe({
-      next: (data: any) => {
-        this.users = data;
-      },
+      next: (data: any) => this.users = data,
       error: (err) => console.error('Error al cargar usuarios', err)
     });
   }
 
-  // 2. Cargar Bitácora de Auditoría
   loadAuditLogs() {
     this.http.get(`${this.apiUrl}/logs`, { headers: this.getHeaders() }).subscribe({
-      next: (data: any) => {
-        this.auditLogs = data;
-      },
+      next: (data: any) => this.auditLogs = data,
       error: (err) => console.error('Error al cargar bitácora', err)
     });
   }
 
-  // 3. Cambiar Rol (Asignación de privilegios)
   updateRole(userId: number, newRole: string) {
-    if(confirm(`¿Estás seguro de cambiar el rol a ${newRole}?`)) {
+    if(confirm(`¿Estás seguro de cambiar el grupo/rol a ${newRole}?`)) {
       this.http.put(`${this.apiUrl}/users/${userId}/role`, { role: newRole }, { headers: this.getHeaders() }).subscribe({
         next: () => {
-          alert('Rol actualizado correctamente.');
-          this.loadAuditLogs(); // Recargar bitácora para ver el cambio
+          alert('Rol asignado correctamente.');
+          this.loadAuditLogs();
         },
         error: (err) => alert('Error al actualizar el rol.')
       });
     }
   }
 
-  // 4. Activar o Desactivar cuenta
   toggleStatus(userId: number, isActive: boolean) {
-    const statusText = isActive ? 'activar' : 'desactivar';
-    if(confirm(`¿Deseas ${statusText} este usuario?`)) {
+    const statusText = isActive ? 'habilitar' : 'deshabilitar';
+    if(confirm(`¿Deseas ${statusText} esta cuenta de usuario?`)) {
       this.http.put(`${this.apiUrl}/users/${userId}/status`, { is_active: isActive }, { headers: this.getHeaders() }).subscribe({
         next: () => {
-          this.loadUsers(); // Recargar la tabla
-          this.loadAuditLogs();
+          this.loadUsers();
+          this.loadAuditLogs(); 
         },
         error: (err) => alert(`Error al ${statusText} la cuenta.`)
       });
     }
   }
 
-  // 5. Eliminación Lógica
   logicalDelete(userId: number) {
-    if(confirm('¿Estás seguro de eliminar este usuario? Sus datos se mantendrán en la base de datos por integridad, pero perderá acceso.')) {
+    if(confirm('¿Confirmas ELIMINAR este usuario? Se perderá su configuración pero se mantendrá en registros de auditoría.')) {
       this.http.delete(`${this.apiUrl}/users/${userId}`, { headers: this.getHeaders() }).subscribe({
         next: () => {
-          this.loadUsers(); // El usuario desaparecerá de la lista
+          this.loadUsers();
           this.loadAuditLogs();
-          alert('Usuario eliminado lógicamente.');
+          alert('Usuario eliminado correctamente.');
         },
         error: (err) => alert('Error al eliminar usuario.')
       });

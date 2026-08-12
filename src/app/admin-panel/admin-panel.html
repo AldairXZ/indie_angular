@@ -1,58 +1,84 @@
 <div class="admin-container">
-  <h2>Gestión de Usuarios y Roles</h2>
-
+  
+  <div class="header-title" style="margin-bottom: 20px;">
+    <h2><i class='bx bx-shield-quarter'></i> Gestión de Cuentas (Práctica 13)</h2>
+    <p>Administración de estados, jerarquías y auditoría del sistema operativo web.</p>
+  </div>
+  
   <table class="admin-table">
     <thead>
       <tr>
         <th>Usuario</th>
-        <th>Email</th>
-        <th>Rol</th>
-        <th>Estado</th>
-        <th>Acciones</th>
+        <th>Último Login</th>
+        <th>Grupo (Rol)</th>
+        <th>Habilitado (Estado)</th>
+        <th>Cambio de Contraseña</th>
+        <th>Acciones del Sistema</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of users">
-        <td>{{ user.username }}</td>
-        <td>{{ user.email }}</td>
-        <td>
-          <select [(ngModel)]="user.role" (change)="updateRole(user.id, user.role)">
-            <option value="user">Usuario Estándar</option>
-            <option value="admin">Administrador</option>
-          </select>
-        </td>
-        <td>
-          <span [class.active]="user.is_active" [class.inactive]="!user.is_active">
-            {{ user.is_active ? 'Activo' : 'Inactivo' }}
-          </span>
-        </td>
-        <td>
-          <button class="btn-warning" (click)="toggleStatus(user.id, !user.is_active)">
-            {{ user.is_active ? 'Desactivar' : 'Activar' }}
-          </button>
-          <button class="btn-danger" (click)="logicalDelete(user.id)">Eliminar</button>
-        </td>
-      </tr>
+      @for (user of users; track user.id) {
+        <tr>
+          <td><strong>{{ user.username }}</strong><br><small>{{ user.email }}</small></td>
+          
+          <td class="text-muted">{{ user.last_login ? (user.last_login | date:'short') : 'Sin registros' }}</td>
+          
+          <td>
+            <select [(ngModel)]="user.role" (change)="updateRole(user.id, user.role)" class="role-select">
+              <option value="user">Alumno (Nivel 1)</option>
+              <option value="guest">Invitado</option>
+              <option value="admin">Administrador</option>
+            </select>
+          </td>
+          
+          <td>
+            <span [class.badge-success]="user.is_active" [class.badge-danger]="!user.is_active">
+              {{ user.is_active ? 'Sí (Habilitada)' : 'No (Deshabilitada)' }}
+            </span>
+          </td>
+          
+          <td>
+            <span [class.badge-warning]="user.requires_password_change" [class.text-muted]="!user.requires_password_change">
+              {{ user.requires_password_change ? 'Requerido' : 'Al día' }}
+            </span>
+          </td>
+          
+          <td class="actions-cell">
+            <button class="btn-warning" (click)="toggleStatus(user.id, !user.is_active)">
+              <i class='bx' [ngClass]="user.is_active ? 'bx-lock-alt' : 'bx-lock-open-alt'"></i>
+              {{ user.is_active ? 'Deshabilitar' : 'Habilitar' }}
+            </button>
+            <button class="btn-danger" (click)="logicalDelete(user.id)">
+              <i class='bx bx-trash'></i> Eliminar
+            </button>
+          </td>
+        </tr>
+      }
     </tbody>
   </table>
 
-  <h2>Bitácora de Auditoría</h2>
+  <div class="header-title" style="margin-top: 50px; margin-bottom: 20px;">
+    <h2><i class='bx bx-list-check'></i> Bitácora de Auditoría</h2>
+  </div>
+
   <table class="audit-table">
     <thead>
       <tr>
         <th>Fecha y Hora</th>
-        <th>Usuario</th>
-        <th>Acción</th>
+        <th>ID Administrador</th>
+        <th>Acción Registrada</th>
         <th>Dirección IP</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let log of auditLogs">
-        <td>{{ log.created_at | date:'medium' }}</td>
-        <td>{{ log.username }}</td>
-        <td>{{ log.action }}</td>
-        <td>{{ log.ip_address }}</td>
-      </tr>
+      @for (log of auditLogs; track log.id) {
+        <tr>
+          <td class="text-muted">{{ log.created_at | date:'medium' }}</td>
+          <td>{{ log.username }}</td>
+          <td style="color: var(--accent);">{{ log.action }}</td>
+          <td class="text-muted">{{ log.ip_address || 'Local' }}</td>
+        </tr>
+      }
     </tbody>
   </table>
 </div>

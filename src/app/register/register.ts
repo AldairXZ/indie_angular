@@ -28,18 +28,10 @@ export class RegisterComponent {
 
   registerForm: FormGroup = this.fb.group({
     username: ['', [Validators.required, Validators.minLength(3)]],
-    email: ['', [Validators.required, Validators.email, this.uteqEmailValidator]],
+    email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
     role: ['player', Validators.required]
   });
-
-  uteqEmailValidator(control: AbstractControl) {
-    const email = control.value;
-    if (email && !email.endsWith('@uteq.edu.mx')) {
-      return { invalidDomain: true };
-    }
-    return null;
-  }
 
   isInvalid(controlName: string): boolean {
     const control = this.registerForm.get(controlName);
@@ -53,7 +45,6 @@ export class RegisterComponent {
     if (control.hasError('required')) return 'Este campo es obligatorio.';
     if (control.hasError('minlength')) return `Mínimo ${control.errors?.['minlength'].requiredLength} caracteres.`;
     if (control.hasError('email')) return 'Formato de correo inválido.';
-    if (control.hasError('invalidDomain')) return 'Debe ser un correo @uteq.edu.mx';
 
     return 'Campo inválido.';
   }
